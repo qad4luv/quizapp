@@ -1,0 +1,63 @@
+const questions = [
+    {
+      question: "What is the capital of France?",
+      options: ["Berlin", "Madrid", "Paris", "Rome"],
+      answer: "Paris",
+    },
+    {
+      question: "Which planet is known as the Red Planet?",
+      options: ["Earth", "Mars", "Jupiter", "Venus"],
+      answer: "Mars",
+    },
+    {
+      question: "What is 2 + 2?",
+      options: ["3", "4", "5", "6"],
+      answer: "4",
+    }
+  ];
+  
+  let currentQuestionIndex = 0;
+  let score = 0;
+  
+  function showQuestion() {
+    const questionContainer = document.getElementById("question-container");
+    const optionsContainer = document.getElementById("options-container");
+    const progress = document.getElementById("progress");
+  
+    if (currentQuestionIndex >= questions.length) {
+      questionContainer.innerHTML = `<h2>Quiz Completed!</h2><p>Your score: ${score} / ${questions.length}</p>`;
+      optionsContainer.innerHTML = "<button onclick='restartQuiz()'>Restart Quiz</button>";
+      progress.innerText = "";
+      return;
+    }
+  
+    const currentQuestion = questions[currentQuestionIndex];
+    questionContainer.innerHTML = `<h2>${currentQuestion.question}</h2>`;
+    optionsContainer.innerHTML = "";
+    progress.innerText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  
+    currentQuestion.options.forEach(option => {
+      const button = document.createElement("button");
+      button.innerText = option;
+      button.classList.add("option-button");
+      button.onclick = () => handleAnswer(option);
+      optionsContainer.appendChild(button);
+    });
+  }
+  
+  function handleAnswer(selectedOption) {
+    if (selectedOption === questions[currentQuestionIndex].answer) {
+      score++;
+    }
+    currentQuestionIndex++;
+    showQuestion();
+  }
+  
+  function restartQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    showQuestion();
+  }
+  
+  document.addEventListener("DOMContentLoaded", showQuestion);
+  
